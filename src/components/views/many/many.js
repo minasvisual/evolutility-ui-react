@@ -50,7 +50,7 @@ export default class Many extends React.Component {
 			qUrl += '?'+url.querySearch(query)
 		}
 		if(pageSize){
-			qUrl += (qUrl.indexOf('?')<0 ? '?' : '&') + 'pageSize='+pageSize 
+			qUrl += (qUrl.indexOf('?')<0 ? '?' : '&') + ( this.model.limitField || 'pageSize' ) +'='+ pageSize 
 		}
 		this.setState({
 			loading: true
@@ -61,7 +61,7 @@ export default class Many extends React.Component {
 				if(this.lastQuery === qUrl){
 					this.lastQuery = null
 					this.setState({
-						data: response.data,
+						data: ( this.model.wrapData ? response.data[this.model.wrapData] : response.data ),
 						loading: false
 					})
 				}else{
